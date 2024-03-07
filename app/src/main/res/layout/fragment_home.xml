@@ -158,8 +158,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
+                app:items="@{viewModel.state.devices}"
                 app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/fragment_device_item" />
+                tools:listitem="@layout/item_device" />
 
             <!--        <com.hub.wifianalysis.RecyclerViewCommon-->
             <!--            android:id="@+id/list"-->

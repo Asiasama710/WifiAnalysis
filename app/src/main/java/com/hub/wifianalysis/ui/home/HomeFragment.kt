@@ -10,7 +10,7 @@ import tej.androidnetworktools.lib.Device
 import tej.androidnetworktools.lib.scanner.NetworkScanner
 import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(), OnNetworkScanListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val TAG: String = this::class.java.simpleName.toString()
     override val layoutIdFragment: Int = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
@@ -21,18 +21,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), OnNetworkScanListener 
             Toast.makeText(context, "Please wait...", Toast.LENGTH_SHORT).show()
         }
         Toast.makeText(context, "Scanning...", Toast.LENGTH_SHORT).show()
-        NetworkScanner.scan(this)
+        NetworkScanner.scan(viewModel)
+        initiateAdapter()
     }
 
-    override fun onComplete(devices: List<Device>) {
-        for (device in devices) {
-            Log.e(TAG, "ip: ${device.ipAddress}")
-            Log.e(TAG, "mac: ${device.macAddress}")
-        }
-
-    }
-
-    override fun onFailed() {
-        Log.e(TAG, "onFailed: ")
+    private fun initiateAdapter() {
+        val adapter = DeviceAdapter()
+        binding.list.adapter = adapter
     }
 }

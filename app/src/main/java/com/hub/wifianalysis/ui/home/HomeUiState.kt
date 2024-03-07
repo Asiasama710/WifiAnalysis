@@ -1,5 +1,7 @@
 package com.hub.wifianalysis.ui.home
 
+import tej.androidnetworktools.lib.Device
+
 data class HomeUiState(
     val isLoading: Boolean = false,
     val devices: List<DeviceUiState> = emptyList(),
@@ -16,3 +18,12 @@ data class DeviceUiState(
 data class NetworkInfoUiState(
     val ssid: String = "",
 )
+
+fun Device.toUiState() = DeviceUiState(
+        deviceName = hostname,
+        ipAddress = ipAddress,
+        macAddress = macAddress,
+        vendorName = vendorName,
+)
+
+fun List<Device>.toUiState() = map { it.toUiState() }

@@ -5,14 +5,22 @@ import androidx.lifecycle.ViewModel
 import com.hub.wifianalysis.ui.base.BaseInteractionListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import tej.androidnetworktools.lib.Device
+import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
-class HomeViewModel() : ViewModel(), BaseInteractionListener {
+class HomeViewModel() : ViewModel(), OnNetworkScanListener {
 
-    private val _homeUiState = MutableStateFlow(HomeUiState())
-    val homeUiState = _homeUiState.asStateFlow()
+    private val _state = MutableStateFlow(HomeUiState())
+    val state = _state.asStateFlow()
 
-    init {
-        Log.e("TAG", "Home view model: ")
+    override fun onComplete(devices: List<Device>) {
+        val device = devices.toUiState()
+        _state.update { it.copy(isLoading = false, devices = device) }
+        Log.e("TAG", "onComplete: ${state.value.devices}")
     }
 
+    override fun onFailed() {
+        Log.e("TAG", "onFailed: ")
+    }
 }
