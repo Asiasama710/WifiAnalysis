@@ -159,18 +159,9 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:items="@{viewModel.state.devices}"
-                app:layoutManager="LinearLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_device" />
 
-            <!--        <com.hub.wifianalysis.RecyclerViewCommon-->
-            <!--            android:id="@+id/list"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginLeft="16dp"-->
-            <!--            android:layout_marginRight="16dp"-->
-            <!--            android:nestedScrollingEnabled="false"-->
-            <!--            app:layoutManager="LinearLayoutManager"-->
-            <!--            tools:listitem="@layout/fragment_device_item"/>-->
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

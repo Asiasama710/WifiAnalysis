@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
@@ -41,7 +42,7 @@ abstract class BaseAdapter<T> :
         when (holder) {
             is ItemViewHolder -> {
                 holder.binding.apply {
-                  //  setVariable(BR.item, currentItem)
+                    setVariable(BR.item, currentItem)
                 }
             }
         }

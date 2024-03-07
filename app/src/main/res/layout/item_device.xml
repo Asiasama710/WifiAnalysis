@@ -5,7 +5,7 @@
     <data>
         <variable
             name="item"
-            type="com.hub.wifianalysis.model.Device" />
+            type="com.hub.wifianalysis.ui.home.DeviceUiState" />
 
     </data>
 
@@ -14,7 +14,8 @@
         app:cardCornerRadius="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
         android:focusable="true"
         android:orientation="horizontal">
 
@@ -27,7 +28,7 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
+                android:stretchColumns="9"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/device_name"
+                        android:layout_marginEnd="16dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <TextView
@@ -66,7 +68,7 @@
                     <TextView
                         android:id="@+id/deviceIPTextView"
                         android:layout_width="wrap_content"
-                        android:text="@{item.ip}"
+                        android:text="@{item.ipAddress}"
                         android:layout_height="wrap_content" />
 
                 </TableRow>
@@ -85,7 +87,7 @@
                     <TextView
                         android:id="@+id/deviceMacAddressTextView"
                         android:layout_width="wrap_content"
-                        android:text="@{item.mac}"
+                        android:text="@{item.macAddress}"
                         android:layout_height="wrap_content" />
 
                 </TableRow>
