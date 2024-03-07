@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">WifiAnalysis</string>
+    <string name="title_card_network_info">Network Information</string>
+    <string name="field_name_device_name">Device Name</string>
+    <string name="field_name_device_type">Device Type</string>
+    <string name="field_name_device_ip">Device IP</string>
+    <string name="field_name_device_mac">Device MAC</string>
+    <string name="field_name_vendor_name">Vendor Name</string>
+    <string name="title_connected_devices">Connected Devices:</string>
+    <string name="this_device">This device</string>
+    <string name="error_network_not_found">Network not found</string>
+    <string name="hideMacAddressDetails">Hide MAC Address Details</string>
+    <string name="device_name">Device Name:</string>
+    <string name="ip_address">IP Address:</string>
+    <string name="mac_address">Mac Address:</string>
+
+</resources>
