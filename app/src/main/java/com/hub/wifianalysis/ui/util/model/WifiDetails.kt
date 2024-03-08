@@ -1,4 +1,4 @@
-package com.hub.wifianalysis.model
+package com.hub.wifianalysis.ui.util.model
 
 data class WifiDetails(
     val ipAddress: String,

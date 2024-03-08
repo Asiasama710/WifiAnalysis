@@ -1,16 +1,13 @@
-package com.hub.wifianalysis.util
+package com.hub.wifianalysis.ui.util
 
 import android.util.Log
-import com.hub.wifianalysis.model.PortDescription
+import com.hub.wifianalysis.ui.util.model.PortDescription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InterruptedIOException
 import java.net.*
-import java.nio.ByteBuffer
-import java.util.logging.Logger
 
 class PortScanner(val ip:String ) {
     companion object {

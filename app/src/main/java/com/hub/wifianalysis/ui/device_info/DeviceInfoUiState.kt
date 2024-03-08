@@ -1,6 +1,6 @@
 package com.hub.wifianalysis.ui.device_info
 
-import com.hub.wifianalysis.model.PortDescription
+import com.hub.wifianalysis.ui.util.model.PortDescription
 
 data class DeviceInfoUiState(
     val ipAddress: String = "",

@@ -1,4 +1,4 @@
-package com.hub.wifianalysis.model
+package com.hub.wifianalysis.ui.util.model
 
 data class PortDescription(
     val port: Int,
@@ -14,7 +14,6 @@ data class PortDescription(
                 PortDescription( 23, Protocol.TCP, "Telnet",  "telnet"),
                 PortDescription( 25, Protocol.TCP, "SMTP", "smtp"),
                 PortDescription( 53, Protocol.TCP, "DNS",  "dns"),
-                PortDescription( 53, Protocol.UDP, "DNS",  "dns"),
                 PortDescription( 80, Protocol.TCP, "HTTP",  "http"),
                 PortDescription( 110, Protocol.TCP, "POP3", "pop3"),
                 PortDescription( 115, Protocol.TCP, "SFTP", "sftp"),

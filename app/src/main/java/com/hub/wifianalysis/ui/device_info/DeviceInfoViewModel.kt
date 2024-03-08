@@ -5,13 +5,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hub.wifianalysis.ui.base.BaseInteractionListener
-import com.hub.wifianalysis.util.PortScanner
+import com.hub.wifianalysis.ui.util.PortScanner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DeviceInfoViewModel(
    state: SavedStateHandle

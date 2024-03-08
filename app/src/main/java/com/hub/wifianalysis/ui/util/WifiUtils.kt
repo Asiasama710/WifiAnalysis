@@ -13,20 +13,18 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.hub.wifianalysis.model.WifiDetails
+import com.hub.wifianalysis.ui.util.model.WifiDetails
 
 object WifiUtils {
     private const val REQUEST_CODE_WIFI_PERMISSION = 1
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-   suspend fun getWifiDetails(context: Context, callback: (WifiDetails?) -> Unit) {
+    fun getWifiDetails(context: Context, callback: (WifiDetails?) -> Unit) {
         val request = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .build()

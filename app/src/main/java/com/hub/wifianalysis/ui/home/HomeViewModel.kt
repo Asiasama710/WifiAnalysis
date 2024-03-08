@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.hub.wifianalysis.model.WifiDetails
+import com.hub.wifianalysis.ui.util.model.WifiDetails
 import com.hub.wifianalysis.ui.util.WifiUtils
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
