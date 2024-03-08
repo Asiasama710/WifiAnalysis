@@ -9,6 +9,10 @@ import androidx.fragment.app.viewModels
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.FragmentDeviceInfoBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
+import com.hub.wifianalysis.ui.home.DeviceAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class DeviceInfoFragment : BaseFragment<FragmentDeviceInfoBinding>() {
@@ -18,7 +22,14 @@ class DeviceInfoFragment : BaseFragment<FragmentDeviceInfoBinding>() {
 
     override fun setup() {
         super.setup()
+        initiateAdapter()
 
     }
+
+    private fun initiateAdapter() {
+        val adapter = DeviceInfoAdapter(viewModel)
+        binding.list.adapter = adapter
+    }
+
 
 }

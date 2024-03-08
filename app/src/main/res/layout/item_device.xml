@@ -15,7 +15,7 @@
 
     <androidx.cardview.widget.CardView
         style="@style/CardView.Light"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
