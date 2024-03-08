@@ -2,18 +2,13 @@ package com.hub.wifianalysis.ui.home
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.FragmentHomeBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
+import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.scanner.NetworkScanner
 
@@ -37,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun setup() {
-        checkLocationPermission()
+        setupPermissionRequest()
         binding.refreshButton.setOnClickListener {
             checkWifiState()
         }
@@ -45,41 +41,50 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewModel.navigationEvents.collect { event ->
                 when (event) {
                     is HomeUiEffect.NavigateToDetails -> {
-                        navigateToDetailsFragment(event.ipAddress, event.macAddress, event.deviceName, event.vendor)
+                        navigateToDetailsFragment(
+                            event.ipAddress,
+                            event.macAddress,
+                            event.deviceName,
+                            event.vendor
+                        )
                     }
                 }
             }
         }
     }
-    private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
+
+
+    private fun setupPermissionRequest() {
+        PermissionX.init(this)
+            .permissions(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.CHANGE_WIFI_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
-        } else {
-            checkWifiState()
-        }
-    }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                checkWifiState()
-            } else {
-                showPermissionDeniedDialog()
+            .onExplainRequestReason { scope, deniedList ->
+                scope.showRequestReasonDialog(
+                    deniedList,
+                    "Core fundamental are based on these permissions",
+                    "OK",
+                    "Cancel"
+                )
             }
-        }
+            .request { allGranted, grantedList, deniedList ->
+                if (allGranted) {
+                    checkWifiState()
+                } else {
+                    showPermissionDeniedDialog()
+                    Toast.makeText(
+                        requireContext(),
+                        "These permissions are denied: $deniedList",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
     }
+
+
     private fun showPermissionDeniedDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Permission Required")
@@ -94,16 +99,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         builder.setCancelable(false)
         builder.show()
     }
+
     private fun openLocationSettings() {
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         startActivityForResult(intent, REQUEST_CODE_APP_SETTINGS)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_APP_SETTINGS) {
-                checkLocationPermission()
-        }
     }
 
     private fun initiateAdapter() {
@@ -148,11 +147,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun navigateToDetailsFragment(ipAddress: String, macAddress: String, deviceName: String, vendor: String) {
+    private fun navigateToDetailsFragment(
+        ipAddress: String,
+        macAddress: String,
+        deviceName: String,
+        vendor: String
+    ) {
         val action = HomeFragmentDirections
-            .actionHomeFragmentToDeviceInfoFragment(ipAddress,deviceName, macAddress , vendor)
+            .actionHomeFragmentToDeviceInfoFragment(ipAddress, deviceName, macAddress, vendor)
         findNavController().navigate(action)
     }
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
         private const val REQUEST_CODE_APP_SETTINGS = 1002

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.hub.wifianalysis"
-    compileSdk =31
+    compileSdk =32
 
     defaultConfig {
         applicationId = "com.hub.wifianalysis"
@@ -61,6 +61,6 @@ dependencies {
 
     // lottie dependency
     implementation ("com.airbnb.android:lottie:6.0.0")
-
+    implementation ("com.guolindev.permissionx:permissionx:1.7.1")
 
 }
