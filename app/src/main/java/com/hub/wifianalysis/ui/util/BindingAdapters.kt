@@ -29,7 +29,7 @@ fun hideWhenEmptyList(view: View, listSize: Int) {
         view.visibility = View.VISIBLE
     }
 }
-@BindingAdapter("app:showProgress")
-fun showProgress(view: View, show: Boolean) {
+@BindingAdapter("app:showIf")
+fun showIf(view: View, show: Boolean) {
     view.visibility = if (show) View.VISIBLE else View.GONE
 }

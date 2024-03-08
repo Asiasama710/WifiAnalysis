@@ -1,9 +1,11 @@
 package com.hub.wifianalysis.ui.home
 
+import android.net.wifi.WifiManager
 import android.os.Build
-import android.view.View
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,18 +27,49 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setup() {
-        viewModel.fetchWifiDetails()
-        NetworkScanner.init(context)
-        if (NetworkScanner.isRunning()) {
-            Toast.makeText(context, "Please wait...", Toast.LENGTH_SHORT).show()
+        val wifiManager = requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
+        checkWifiState(wifiManager)
+        binding.refreshButton.setOnClickListener {
+            checkWifiState(wifiManager)
         }
-        Toast.makeText(context, "Scanning...", Toast.LENGTH_SHORT).show()
-        NetworkScanner.scan(viewModel)
-        initiateAdapter()
     }
 
     private fun initiateAdapter() {
         val adapter = DeviceAdapter()
         binding.list.adapter = adapter
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun checkWifiState(wifiManager: WifiManager) {
+        Log.e("TAG", "onCreate")
+        if (!wifiManager.isWifiEnabled) {
+            Toast.makeText(
+                    context,
+                    "WiFi is disabled ... We need to enable it",
+                    Toast.LENGTH_LONG
+            ).show()
+            wifiManager.isWifiEnabled = true
+            viewModel.changeWifiState(true)
+        } else {
+            if (wifiManager.connectionInfo.networkId == -1) {
+                viewModel.changeWifiState(true)
+                Toast.makeText(
+                        context,
+                        "Wifi is not connected..Please connect to a wifi network",
+                        Toast.LENGTH_LONG
+                ).show()
+            } else {
+                initiateAdapter()
+                viewModel.changeWifiState(false)
+                NetworkScanner.init(context)
+                viewModel.fetchWifiDetails()
+                if (NetworkScanner.isRunning()) {
+                    Toast.makeText(context, "Please wait...", Toast.LENGTH_SHORT).show()
+                }
+                Toast.makeText(context, "Scanning...", Toast.LENGTH_SHORT).show()
+                NetworkScanner.scan(viewModel)
+            }
+        }
     }
 }

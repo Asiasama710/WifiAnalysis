@@ -5,6 +5,9 @@ import tej.androidnetworktools.lib.Device
 data class HomeUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
+    val isWifiDisabled: Boolean = false,
+    val showPleaseWaitToast: Boolean = false,
+    val showWifiDisabledToast: Boolean = false,
     val devices: List<DeviceUiState> = emptyList(),
     val networkInfo: NetworkInfoUiState = NetworkInfoUiState(),
 )

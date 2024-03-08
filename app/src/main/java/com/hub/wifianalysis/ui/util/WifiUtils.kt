@@ -15,8 +15,10 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.hub.wifianalysis.model.WifiDetails
 
 object WifiUtils {
@@ -24,14 +26,14 @@ object WifiUtils {
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getWifiDetails(context: Context, callback: (WifiDetails?) -> Unit) {
+   suspend fun getWifiDetails(context: Context, callback: (WifiDetails?) -> Unit) {
         val request = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .build()
 
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val wifiManager = context.applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
+        val wifiInfoManager =wifiManager.connectionInfo
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
             @RequiresApi(Build.VERSION_CODES.Q)
             override fun onAvailable(network: Network) {
@@ -71,7 +73,24 @@ object WifiUtils {
                     }
                     callback(wifiDetails)
                 } else {
-                    callback(null)
+                    val wifiDetails = getWifiSSID(context)?.let {
+                        WifiDetails(
+                                ipAddress = intToIp(wifiInfoManager.ipAddress),
+                                routerIp = getRouterIp(context),
+                                dns1 = getDns1(context),
+                                dns2 = getDns2(context),
+                                bssld = wifiInfoManager.bssid,
+                                ssid = wifiInfoManager.ssid,
+                                macAddress = wifiInfoManager.macAddress,
+                                linkSpeed = wifiInfoManager.linkSpeed,
+                                signalStrength = wifiInfoManager.rssi,
+                                frequency = wifiInfoManager.frequency,
+                                networkId = getNetworkId(context),
+                                connectionType = getConnectionType(context),
+                                isHiddenSsid = wifiInfoManager.hiddenSSID
+                        )
+                    }
+                    callback(wifiDetails)
                 }
             }
         }

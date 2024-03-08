@@ -1,18 +1,22 @@
 package com.hub.wifianalysis.ui.home
 
 import android.app.Application
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.hub.wifianalysis.model.WifiDetails
 import com.hub.wifianalysis.ui.util.WifiUtils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.Device
+import tej.androidnetworktools.lib.scanner.NetworkScanner
 import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
 class HomeViewModel(application: Application) : AndroidViewModel(application),
@@ -52,6 +56,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application),
                 }
             }
         }
+    }
+
+    fun changeWifiState(isWifiDisabled: Boolean) {
+        _state.update { it.copy(isWifiDisabled = isWifiDisabled) }
     }
 
     private fun updateWifiDetailsUiState(wifiDetails: WifiDetails) {
