@@ -52,9 +52,6 @@ object WifiUtils {
                                 REQUEST_CODE_WIFI_PERMISSION
                             )
                         }
-                        else{
-                            Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT).show()
-                        }
                         WifiDetails(
                             ipAddress = intToIp(wifiInfo.ipAddress),
                             routerIp = getRouterIp(context),

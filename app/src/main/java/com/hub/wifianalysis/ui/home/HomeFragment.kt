@@ -1,11 +1,19 @@
 package com.hub.wifianalysis.ui.home
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -28,13 +36,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setup() {
-        val wifiManager =
-            requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
-        checkWifiState(wifiManager)
+        checkLocationPermission()
         binding.refreshButton.setOnClickListener {
-            checkWifiState(wifiManager)
+            checkWifiState()
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.navigationEvents.collect { event ->
@@ -46,6 +51,60 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            checkWifiState()
+        }
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                checkWifiState()
+            } else {
+                showPermissionDeniedDialog()
+            }
+        }
+    }
+    private fun showPermissionDeniedDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Permission Required")
+        builder.setMessage("Location permission is required to proceed. Please enable it in Settings.")
+        builder.setPositiveButton("Go to Settings") { dialog, _ ->
+            dialog.dismiss()
+            openLocationSettings()
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.setCancelable(false)
+        builder.show()
+    }
+    private fun openLocationSettings() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        startActivityForResult(intent, REQUEST_CODE_APP_SETTINGS)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_APP_SETTINGS) {
+                checkLocationPermission()
+        }
+    }
 
     private fun initiateAdapter() {
         val adapter = DeviceAdapter(viewModel)
@@ -53,8 +112,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun checkWifiState(wifiManager: WifiManager) {
+    private fun checkWifiState() {
+        val wifiManager =
+            requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
         Log.e("TAG", "onCreate")
         if (!wifiManager.isWifiEnabled) {
             Toast.makeText(
@@ -76,7 +136,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 initiateAdapter()
                 viewModel.changeWifiState(false)
                 NetworkScanner.init(context)
-                viewModel.fetchWifiDetails()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    viewModel.fetchWifiDetails()
+                }
                 if (NetworkScanner.isRunning()) {
                     Toast.makeText(context, "Please wait...", Toast.LENGTH_SHORT).show()
                 }
@@ -91,5 +153,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             .actionHomeFragmentToDeviceInfoFragment(ipAddress,deviceName, macAddress , vendor)
         findNavController().navigate(action)
     }
-
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+        private const val REQUEST_CODE_APP_SETTINGS = 1002
+    }
 }
