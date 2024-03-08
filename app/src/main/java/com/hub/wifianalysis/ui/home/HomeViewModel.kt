@@ -80,9 +80,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application),
         )
     }
 
-    override fun onDeviceClick(id: String) {
+    override fun onDeviceClick(id: String, deviceName: String, mac: String, vendor: String) {
         viewModelScope.launch {
-            _navigationEvents.emit(HomeUiEffect.NavigateToDetails(id))
+            _navigationEvents.emit(HomeUiEffect.NavigateToDetails(ipAddress =id, deviceName = deviceName, macAddress = mac, vendor = vendor))
         }
     }
 }

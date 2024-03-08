@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewModel.navigationEvents.collect { event ->
                 when (event) {
                     is HomeUiEffect.NavigateToDetails -> {
-                        navigateToDetailsFragment(event.ipAddress)
+                        navigateToDetailsFragment(event.ipAddress, event.macAddress, event.deviceName, event.vendor)
                     }
                 }
             }
@@ -86,9 +86,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun navigateToDetailsFragment(ipAddress: String) {
+    private fun navigateToDetailsFragment(ipAddress: String, macAddress: String, deviceName: String, vendor: String) {
         val action = HomeFragmentDirections
-            .actionHomeFragmentToDeviceInfoFragment(ipAddress)
+            .actionHomeFragmentToDeviceInfoFragment(ipAddress,deviceName, macAddress , vendor)
         findNavController().navigate(action)
     }
 

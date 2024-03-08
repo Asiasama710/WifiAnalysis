@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.hub.wifianalysis.ui.device_info.DeviceInfoViewModel" />
 
     </data>
 
@@ -31,7 +34,7 @@
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/network_information"
+                        android:text="@string/device_information"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +61,7 @@
                             <TextView
                                 android:id="@+id/deviceNameTextView"
                                 android:layout_width="wrap_content"
+                                android:text="@{viewModel.state.deviceName}"
                                 android:layout_height="wrap_content" />
 
                         </TableRow>
@@ -76,6 +80,7 @@
                             <TextView
                                 android:id="@+id/deviceIpTextView"
                                 android:layout_width="wrap_content"
+                                android:text="@{viewModel.state.ipAddress}"
                                 android:layout_height="wrap_content" />
 
                         </TableRow>
@@ -94,6 +99,7 @@
                             <TextView
                                 android:id="@+id/deviceHwAddressTextView"
                                 android:layout_width="wrap_content"
+                                android:text="@{viewModel.state.mac}"
                                 android:layout_height="wrap_content" />
 
                         </TableRow>
@@ -112,6 +118,7 @@
                             <TextView
                                 android:id="@+id/deviceVendorTextView"
                                 android:layout_width="wrap_content"
+                                android:text="@{viewModel.state.vendor}"
                                 android:layout_height="wrap_content" />
 
                         </TableRow>

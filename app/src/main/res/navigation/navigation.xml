@@ -19,9 +19,20 @@
     <fragment
         android:id="@+id/deviceInfoFragment"
         android:name="com.hub.wifianalysis.ui.device_info.DeviceInfoFragment"
-        android:label="DeviceInfoFragment" >
+        android:label="DeviceInfoFragment"
+        tools:layout="@layout/fragment_device_info">
+
         <argument
             android:name="deviceip"
+            app:argType="string" />
+        <argument
+            android:name="deviceName"
+            app:argType="string" />
+        <argument
+            android:name="deviceMac"
+            app:argType="string" />
+        <argument
+            android:name="deviceVendor"
             app:argType="string" />
     </fragment>
 

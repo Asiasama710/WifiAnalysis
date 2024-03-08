@@ -9,5 +9,5 @@ class DeviceAdapter(listener: DeviceInteractionListener) : BaseAdapter<DeviceUiS
 }
 
 interface DeviceInteractionListener : BaseInteractionListener {
-    fun onDeviceClick(id: String)
+    fun onDeviceClick(id: String,deviceName:String,mac:String,vendor:String)
 }
