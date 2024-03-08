@@ -1,26 +1,24 @@
 package com.hub.wifianalysis.ui.home
 
 import android.app.Application
-import android.net.wifi.WifiManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.hub.wifianalysis.model.WifiDetails
 import com.hub.wifianalysis.ui.util.WifiUtils
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.Device
-import tej.androidnetworktools.lib.scanner.NetworkScanner
 import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
 class HomeViewModel(application: Application) : AndroidViewModel(application),
-    OnNetworkScanListener {
+    OnNetworkScanListener, DeviceInteractionListener {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
@@ -29,6 +27,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application),
     private val _wifiDetailsUiState = MutableStateFlow(WifiDetailsUiState())
     val wifiDetailsUiState = _wifiDetailsUiState.asStateFlow()
     private val appContext = getApplication<Application>().applicationContext
+    private val _navigationEvents = MutableSharedFlow<HomeUiEffect>()
+    val navigationEvents: SharedFlow<HomeUiEffect> = _navigationEvents
+
     init {
         _state.update { it.copy(isLoading = true) }
     }
@@ -77,5 +78,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application),
             connectionType = wifiDetails.connectionType,
             isHiddenSsid = wifiDetails.isHiddenSsid
         )
+    }
+
+    override fun onDeviceClick(id: String) {
+        viewModelScope.launch {
+            _navigationEvents.emit(HomeUiEffect.NavigateToDetails(id))
+        }
     }
 }

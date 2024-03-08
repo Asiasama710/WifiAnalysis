@@ -2,6 +2,7 @@ plugins {
     id ("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id ("androidx.navigation.safeargs")
 }
 
 android {
@@ -14,6 +15,8 @@ android {
         targetSdk =29
         versionCode =1
         versionName ="1.0"
+        multiDexEnabled = true
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

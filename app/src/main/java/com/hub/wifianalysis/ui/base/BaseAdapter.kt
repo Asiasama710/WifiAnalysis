@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class BaseAdapter<T> :
+abstract class BaseAdapter<T>(private val listener: BaseInteractionListener) :
     RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
     private var items = emptyList<T>()
@@ -43,6 +43,7 @@ abstract class BaseAdapter<T> :
             is ItemViewHolder -> {
                 holder.binding.apply {
                     setVariable(BR.item, currentItem)
+                    setVariable(BR.listener, listener)
                 }
             }
         }

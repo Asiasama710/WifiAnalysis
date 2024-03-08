@@ -14,5 +14,8 @@
     <string name="ip_address">IP Address:</string>
     <string name="mac_address">Mac Address:</string>
     <string name="network_information">Network Information</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_ports">Open ports</string>
 
 </resources>

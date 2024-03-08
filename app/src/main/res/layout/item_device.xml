@@ -7,6 +7,10 @@
             name="item"
             type="com.hub.wifianalysis.ui.home.DeviceUiState" />
 
+        <variable
+            name="listener"
+            type="com.hub.wifianalysis.ui.home.DeviceInteractionListener" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,6 +21,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
         android:focusable="true"
+        android:onClick="@{()->listener.onDeviceClick(item.ipAddress)}"
         android:orientation="horizontal">
 
 

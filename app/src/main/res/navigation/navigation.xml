@@ -10,6 +10,19 @@
         android:name="com.hub.wifianalysis.ui.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_fragment_to_deviceInfoFragment"
+            app:destination="@id/deviceInfoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceInfoFragment"
+        android:name="com.hub.wifianalysis.ui.device_info.DeviceInfoFragment"
+        android:label="DeviceInfoFragment" >
+        <argument
+            android:name="deviceip"
+            app:argType="string" />
     </fragment>
 
 </navigation>

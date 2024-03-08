@@ -9,9 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.FragmentHomeBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
+import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.scanner.NetworkScanner
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -27,15 +30,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun setup() {
-        val wifiManager = requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
+        val wifiManager =
+            requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
         checkWifiState(wifiManager)
         binding.refreshButton.setOnClickListener {
             checkWifiState(wifiManager)
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.navigationEvents.collect { event ->
+                when (event) {
+                    is HomeUiEffect.NavigateToDetails -> {
+                        navigateToDetailsFragment(event.ipAddress)
+                    }
+                }
+            }
+        }
     }
 
     private fun initiateAdapter() {
-        val adapter = DeviceAdapter()
+        val adapter = DeviceAdapter(viewModel)
         binding.list.adapter = adapter
     }
 
@@ -45,9 +58,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         Log.e("TAG", "onCreate")
         if (!wifiManager.isWifiEnabled) {
             Toast.makeText(
-                    context,
-                    "WiFi is disabled ... We need to enable it",
-                    Toast.LENGTH_LONG
+                context,
+                "WiFi is disabled ... We need to enable it",
+                Toast.LENGTH_LONG
             ).show()
             wifiManager.isWifiEnabled = true
             viewModel.changeWifiState(true)
@@ -55,9 +68,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             if (wifiManager.connectionInfo.networkId == -1) {
                 viewModel.changeWifiState(true)
                 Toast.makeText(
-                        context,
-                        "Wifi is not connected..Please connect to a wifi network",
-                        Toast.LENGTH_LONG
+                    context,
+                    "Wifi is not connected..Please connect to a wifi network",
+                    Toast.LENGTH_LONG
                 ).show()
             } else {
                 initiateAdapter()
@@ -72,4 +85,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
+
+    private fun navigateToDetailsFragment(ipAddress: String) {
+        val action = HomeFragmentDirections
+            .actionHomeFragmentToDeviceInfoFragment(ipAddress)
+        findNavController().navigate(action)
+    }
+
 }

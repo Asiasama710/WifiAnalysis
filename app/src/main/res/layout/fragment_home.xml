@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.hub.wifianalysis.ui.home.HomeViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +61,7 @@
                                 android:id="@+id/ipAddressTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="16dp"
                                 android:text="@{`IP Address: ` + viewModel.wifiDetailsUiState.ipAddress}"
                                 tools:text="ipAddressTextView" />
 
@@ -189,7 +190,7 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/wifi_disable"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +199,8 @@
             app:showIf="@{viewModel.state.isWifiDisabled}"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/wifi_loading" />
+            android:scaleType="center"
+            app:lottie_rawRes="@raw/loading" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/refreshButton"
