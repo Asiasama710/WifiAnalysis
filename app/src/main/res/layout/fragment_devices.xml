@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.hub.wifianalysis.ui.conected_devices.DevicesViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showIf="@{!viewModel.state.isWifiDisabled}">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/title_connected_devices"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/progressBar"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:scaleType="center"
+                android:shadowColor="@color/md_theme_onPrimaryFixedVariant"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="@color/md_theme_onPrimaryFixedVariant"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_wifi"
+                app:showIf="@{viewModel.state.isLoading}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:items="@{viewModel.state.devices}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_device" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/cardview_light_background"
+            app:showIf="@{viewModel.state.isWifiDisabled}">
+
+        </View>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/wifi_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:shadowColor="@color/md_theme_onPrimaryFixedVariant"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/md_theme_onPrimaryFixedVariant"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_wifi"
+            app:showIf="@{viewModel.state.isWifiDisabled}" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Refresh"
+            app:cornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/wifi_disable"
+            app:layout_constraintStart_toStartOf="@+id/wifi_disable"
+            app:layout_constraintTop_toBottomOf="@+id/wifi_disable"
+            app:showIf="@{viewModel.state.isWifiDisabled}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

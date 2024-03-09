@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.hub.wifianalysis.ui.conected_devices.DeviceInteractionListener
 import com.hub.wifianalysis.ui.util.model.WifiDetails
 import com.hub.wifianalysis.ui.util.WifiUtils
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,8 +18,7 @@ import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.Device
 import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
-class HomeViewModel(application: Application) : AndroidViewModel(application),
-    OnNetworkScanListener, DeviceInteractionListener {
+class HomeViewModel(application: Application) : AndroidViewModel(application){
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
@@ -27,23 +27,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application),
     private val _wifiDetailsUiState = MutableStateFlow(WifiDetailsUiState())
     val wifiDetailsUiState = _wifiDetailsUiState.asStateFlow()
     private val appContext = getApplication<Application>().applicationContext
-    private val _navigationEvents = MutableSharedFlow<HomeUiEffect>()
-    val navigationEvents: SharedFlow<HomeUiEffect> = _navigationEvents
+
 
     init {
         _state.update { it.copy(isLoading = true) }
     }
 
-    override fun onComplete(devices: List<Device>) {
-        val device = devices.toUiState()
-        _state.update { it.copy(isLoading = false, devices = device, isError = false) }
-        Log.e("TAG", "onComplete: ${state.value.devices}")
-    }
 
-    override fun onFailed() {
-        Log.e("TAG", "onFailed: ")
-        _state.update { it.copy(isLoading = false, isError = true) }
-    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun fetchWifiDetails() {
@@ -80,9 +70,5 @@ class HomeViewModel(application: Application) : AndroidViewModel(application),
         )
     }
 
-    override fun onDeviceClick(id: String, deviceName: String, mac: String, vendor: String) {
-        viewModelScope.launch {
-            _navigationEvents.emit(HomeUiEffect.NavigateToDetails(ipAddress =id, deviceName = deviceName, macAddress = mac, vendor = vendor))
-        }
-    }
+
 }

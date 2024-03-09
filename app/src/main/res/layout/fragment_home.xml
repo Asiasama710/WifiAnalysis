@@ -14,182 +14,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:showIf="@{!viewModel.state.isWifiDisabled}"
-            android:overScrollMode="always">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:orientation="vertical">
-
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <TextView
-                                android:id="@+id/textWifiDetails"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/network_information"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-
-                            <TextView
-                                android:id="@+id/ipAddressTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:text="@{`IP Address: ` + viewModel.wifiDetailsUiState.ipAddress}"
-                                tools:text="ipAddressTextView" />
-
-                            <TextView
-                                android:id="@+id/routerIpTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Router IP: ` + viewModel.wifiDetailsUiState.routerIp}" />
-
-                            <TextView
-                                android:id="@+id/dns1TextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`DNS 1: ` + viewModel.wifiDetailsUiState.dns1}" />
-
-                            <TextView
-                                android:id="@+id/dns2TextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`DNS 2: ` + viewModel.wifiDetailsUiState.dns2}" />
-
-                            <TextView
-                                android:id="@+id/ssidTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`SSID: ` + viewModel.wifiDetailsUiState.ssid}" />
-
-                            <TextView
-                                android:id="@+id/macAddressTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`MAC Address: ` + viewModel.wifiDetailsUiState.macAddress}" />
-
-                            <TextView
-                                android:id="@+id/linkSpeedTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Link Speed: ` + viewModel.wifiDetailsUiState.linkSpeed}" />
-
-                            <TextView
-                                android:id="@+id/signalStrengthTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Signal Strength: ` + viewModel.wifiDetailsUiState.signalStrength}" />
-
-                            <TextView
-                                android:id="@+id/frequencyTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Frequency: ` + viewModel.wifiDetailsUiState.frequency}" />
-
-                            <TextView
-                                android:id="@+id/networkIdTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Network ID: ` + viewModel.wifiDetailsUiState.networkId}" />
-
-                            <TextView
-                                android:id="@+id/connectionTypeTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Connection Type: ` + viewModel.wifiDetailsUiState.connectionType}" />
-
-                            <TextView
-                                android:id="@+id/isHiddenSsidTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@{`Is Hidden SSID: ` + viewModel.wifiDetailsUiState.isHiddenSsid}" />
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-                        android:text="@string/title_connected_devices" />
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/progressBar"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        app:showIf="@{viewModel.state.isLoading}"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_colorFilter="@color/md_theme_onPrimaryFixedVariant"
-                        android:scaleType="center"
-                        android:shadowColor="@color/md_theme_onPrimaryFixedVariant"
-                        app:lottie_rawRes="@raw/loading_wifi" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        app:items="@{viewModel.state.devices}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_device" />
-
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
+            android:elevation="5dp"
             app:showIf="@{viewModel.state.isWifiDisabled}"
             android:background="@color/cardview_light_background">
         </View>
@@ -205,10 +36,127 @@
             app:showIf="@{viewModel.state.isWifiDisabled}"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
+            android:elevation="5dp"
             app:lottie_colorFilter="@color/md_theme_onPrimaryFixedVariant"
             android:scaleType="center"
             android:shadowColor="@color/md_theme_onPrimaryFixedVariant"
             app:lottie_rawRes="@raw/loading_wifi" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:layout_margin="16dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showIf="@{!viewModel.state.isWifiDisabled}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textWifiDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/network_information"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/ipAddressTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@{`IP Address: ` + viewModel.wifiDetailsUiState.ipAddress}"
+                    tools:text="ipAddressTextView" />
+
+                <TextView
+                    android:id="@+id/routerIpTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Router IP: ` + viewModel.wifiDetailsUiState.routerIp}" />
+
+                <TextView
+                    android:id="@+id/dns1TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`DNS 1: ` + viewModel.wifiDetailsUiState.dns1}" />
+
+                <TextView
+                    android:id="@+id/dns2TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`DNS 2: ` + viewModel.wifiDetailsUiState.dns2}" />
+
+                <TextView
+                    android:id="@+id/ssidTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`SSID: ` + viewModel.wifiDetailsUiState.ssid}" />
+
+                <TextView
+                    android:id="@+id/macAddressTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`MAC Address: ` + viewModel.wifiDetailsUiState.macAddress}" />
+
+                <TextView
+                    android:id="@+id/linkSpeedTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Link Speed: ` + viewModel.wifiDetailsUiState.linkSpeed}" />
+
+                <TextView
+                    android:id="@+id/signalStrengthTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Signal Strength: ` + viewModel.wifiDetailsUiState.signalStrength}" />
+
+                <TextView
+                    android:id="@+id/frequencyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Frequency: ` + viewModel.wifiDetailsUiState.frequency}" />
+
+                <TextView
+                    android:id="@+id/networkIdTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Network ID: ` + viewModel.wifiDetailsUiState.networkId}" />
+
+                <TextView
+                    android:id="@+id/connectionTypeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Connection Type: ` + viewModel.wifiDetailsUiState.connectionType}" />
+
+                <TextView
+                    android:id="@+id/isHiddenSsidTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{`Is Hidden SSID: ` + viewModel.wifiDetailsUiState.isHiddenSsid}" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/refreshButton"

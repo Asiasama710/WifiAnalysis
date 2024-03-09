@@ -1,18 +1,9 @@
 package com.hub.wifianalysis.ui.device_info
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.FragmentDeviceInfoBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
-import com.hub.wifianalysis.ui.home.DeviceAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class DeviceInfoFragment : BaseFragment<FragmentDeviceInfoBinding>() {

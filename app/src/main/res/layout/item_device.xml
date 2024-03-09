@@ -9,7 +9,7 @@
 
         <variable
             name="listener"
-            type="com.hub.wifianalysis.ui.home.DeviceInteractionListener" />
+            type="com.hub.wifianalysis.ui.conected_devices.DeviceInteractionListener" />
 
     </data>
 
