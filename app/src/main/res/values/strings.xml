@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WifiAnalysis</string>
+    <string name="app_name">Wifi Analysis</string>
     <string name="title_card_network_info">Network Information</string>
     <string name="field_name_device_name">Device Name</string>
     <string name="field_name_device_type">Device Type</string>
