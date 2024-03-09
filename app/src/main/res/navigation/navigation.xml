@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/deviceInfoFragment"
         android:name="com.hub.wifianalysis.ui.device_info.DeviceInfoFragment"
-        android:label="DeviceInfoFragment"
+        android:label="Device Info"
         tools:layout="@layout/fragment_device_info">
 
         <argument
