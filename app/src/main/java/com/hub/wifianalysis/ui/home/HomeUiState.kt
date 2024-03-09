@@ -20,6 +20,7 @@ data class DeviceUiState(
 )
 
 data class WifiDetailsUiState(
+    val publicIp: String = "",
     val ipAddress: String = "",
     val routerIp: String = "",
     val dns1: String = "",

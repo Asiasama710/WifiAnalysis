@@ -1,6 +1,7 @@
 package com.hub.wifianalysis.ui.util.model
 
 data class WifiDetails(
+    val publicIp: String,
     val ipAddress: String,
     val routerIp: String,
     val dns1: String,

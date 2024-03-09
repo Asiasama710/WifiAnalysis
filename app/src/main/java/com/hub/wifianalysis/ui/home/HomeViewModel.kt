@@ -55,6 +55,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
 
     private fun updateWifiDetailsUiState(wifiDetails: WifiDetails) {
         _wifiDetailsUiState.value = WifiDetailsUiState(
+            publicIp = wifiDetails.publicIp,
             ipAddress = wifiDetails.ipAddress,
             routerIp = wifiDetails.routerIp,
             dns1 = wifiDetails.dns1,

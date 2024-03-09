@@ -118,7 +118,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
         private const val REQUEST_CODE_APP_SETTINGS = 1002
     }
 }

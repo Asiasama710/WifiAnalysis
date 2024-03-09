@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.hub.wifianalysis.R
-import com.hub.wifianalysis.databinding.FragmentDeviceInfoBinding
+
 import com.hub.wifianalysis.databinding.FragmentDevicesBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
-import com.hub.wifianalysis.ui.home.HomeFragmentDirections
+import com.hub.wifianalysis.ui.conected_devices.*
 import com.hub.wifianalysis.ui.home.HomeUiEffect
 import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.scanner.NetworkScanner
@@ -53,8 +53,8 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
         deviceName: String,
         vendor: String
     ) {
-        val action = HomeFragmentDirections
-            .actionHomeFragmentToDeviceInfoFragment(ipAddress, deviceName, macAddress, vendor)
+        val action = DevicesFragmentDirections
+            .actionDevicesFragmentToDeviceInfoFragment(ipAddress, deviceName, macAddress, vendor)
         findNavController().navigate(action)
     }
 

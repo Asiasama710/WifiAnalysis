@@ -18,5 +18,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_ports">Open ports</string>
     <string name="device_information">Device Information</string>
+    <string name="university_of_babylon">University of Babylon</string>
+    <string name="connected_devices">Connected Devices</string>
+    <string name="password_checker">Password Checker</string>
+    <string name="ports_statistics">Ports Statistics</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
 
 </resources>
