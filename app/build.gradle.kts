@@ -30,6 +30,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -62,5 +63,8 @@ dependencies {
     // lottie dependency
     implementation ("com.airbnb.android:lottie:6.0.0")
     implementation ("com.guolindev.permissionx:permissionx:1.7.1")
+    //pie chart
+    implementation ("com.github.blackfizz:eazegraph:1.2.5l@aar")
+    implementation ("com.nineoldandroids:library:2.4.0")
 
 }

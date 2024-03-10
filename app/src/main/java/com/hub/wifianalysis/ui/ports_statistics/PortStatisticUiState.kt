@@ -9,6 +9,8 @@ data class PortStatisticUiState(
     val isWifiDisabled: Boolean = false,
     val devices: List<DeviceUiState> = emptyList(),
     val ports: List<PortResultUiState> = emptyList(),
-    val ipsAddress: List<String> = emptyList()
+    val isSuccessful: Boolean = false,
+    val list: List<PortResultUiState> = emptyList(),
+    val portCountMap: Map<Pair<String,String>, Int> = mutableMapOf(),
 
 )

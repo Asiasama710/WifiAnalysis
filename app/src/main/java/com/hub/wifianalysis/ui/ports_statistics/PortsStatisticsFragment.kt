@@ -16,14 +16,11 @@ class PortsStatisticsFragment : BaseFragment<FragmentPortsStatisticsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_ports_statistics
     override val viewModel: PortStatisticViewModel by viewModels()
 
+
     override fun setup() {
         super.setup()
         checkWifiState()
-//        binding.refreshButton.setOnClickListener {
-//            checkWifiState()
-//        }
     }
-
 
     private fun checkWifiState() {
         val wifiManager =
