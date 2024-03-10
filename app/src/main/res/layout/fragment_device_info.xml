@@ -141,8 +141,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
+                    android:textStyle="bold"
+
                     android:text="@string/open_ports"
-                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list"

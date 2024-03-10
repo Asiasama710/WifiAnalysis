@@ -28,6 +28,9 @@ class DevicesViewModel(
 
     private val _navigationEvents = MutableSharedFlow<HomeUiEffect>()
     val navigationEvents: SharedFlow<HomeUiEffect> = _navigationEvents
+    init {
+        _state.update { it.copy(isLoading = true) }
+    }
 
     override fun onDeviceClick(id: String, deviceName: String, mac: String, vendor: String) {
         viewModelScope.launch {

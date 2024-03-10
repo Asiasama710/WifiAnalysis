@@ -6,7 +6,7 @@
     <string name="field_name_device_ip">Device IP</string>
     <string name="field_name_device_mac">Device MAC</string>
     <string name="field_name_vendor_name">Vendor Name</string>
-    <string name="title_connected_devices">Connected Devices:</string>
+    <string name="title_connected_devices">Connected Devices</string>
     <string name="this_device">This device</string>
     <string name="error_network_not_found">Network not found</string>
     <string name="hideMacAddressDetails">Hide MAC Address Details</string>

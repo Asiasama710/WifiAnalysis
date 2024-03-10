@@ -21,8 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:text="@string/title_connected_devices"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:layout_marginTop="16dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +54,24 @@
             app:showIf="@{viewModel.state.isWifiDisabled}">
 
         </View>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:shadowColor="@color/md_theme_onPrimaryFixedVariant"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/md_theme_onPrimaryFixedVariant"
+            app:lottie_loop="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/loading_wifi"
+            app:showIf="@{viewModel.state.isLoading}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/wifi_disable"
