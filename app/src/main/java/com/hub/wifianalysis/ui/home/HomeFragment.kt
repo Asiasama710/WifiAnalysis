@@ -22,6 +22,14 @@ import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.scanner.NetworkScanner
 
+/**
+ * HomeFragment is a class that extends BaseFragment and is used to display the home screen.
+ * It uses the layout defined in R.layout.fragment_home for the fragment.
+ *
+ * @property TAG The tag used for logging.
+ * @property layoutIdFragment The layout id for the fragment.
+ * @property viewModel The ViewModel used for managing the UI state.
+ */
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val TAG: String = this::class.java.simpleName.toString()
     override val layoutIdFragment: Int = R.layout.fragment_home
@@ -33,11 +41,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    /**
+     * Setup the fragment. This includes setting up the permission request.
+     */
     override fun setup() {
         setupPermissionRequest()
     }
 
-
+    /**
+     * Setup the permission request for the necessary permissions.
+     */
     private fun setupPermissionRequest() {
         PermissionX.init(this)
             .permissions(
@@ -68,7 +81,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
     }
 
-
+    /**
+     * Show a dialog when the necessary permissions are denied.
+     */
     private fun showPermissionDeniedDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Permission Required")
@@ -83,6 +98,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         builder.setCancelable(false)
         builder.show()
     }
+
+    /**
+     * Check the wifi state and perform necessary actions based on the state.
+     */
     private fun checkWifiState() {
         val wifiManager =
             requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
@@ -112,6 +131,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    /**
+     * Open the location settings screen.
+     */
     private fun openLocationSettings() {
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         startActivityForResult(intent, REQUEST_CODE_APP_SETTINGS)

@@ -17,12 +17,22 @@ import com.google.android.material.navigation.NavigationView
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.ActivityMainBinding
 
+/**
+ * MainActivity is the main activity of the application.
+ *
+ * This activity is responsible for setting up the navigation drawer and handling navigation events.
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         setupDrawerToggle()
     }
 
+    /**
+     * Sets up the navigation for the application.
+     */
     @Suppress("DEPRECATION")
     private fun setupNavigation() {
         val appBarConfiguration = AppBarConfiguration.Builder(
@@ -63,6 +76,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Sets up the drawer toggle for the navigation drawer.
+     */
     private fun setupDrawerToggle() {
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, binding.toolbar,
@@ -72,6 +88,11 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
     }
 
+    /**
+     * Navigates to the destination associated with the given item ID.
+     *
+     * @param itemId The ID of the item to navigate to.
+     */
     private fun navigateToDestination(itemId: Int) {
         when (itemId) {
             R.id.connected_devices -> navController.navigate(R.id.devicesFragment)
@@ -81,11 +102,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Called when the activity's options menu needs to be created.
+     *
+     * @return Boolean Return true for the menu to be displayed; if you return false it will not be shown.
+     */
     override fun onSupportNavigateUp(): Boolean {
         setNavigationIconColor(R.color.white)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -109,7 +141,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Sets the color of the navigation icon.
+     *
+     * @param colorRes The resource ID of the color to set.
+     */
     private fun setNavigationIconColor(colorRes: Int) {
         val drawable = ContextCompat.getDrawable(this, R.drawable.ic_slider)
         drawable?.let {

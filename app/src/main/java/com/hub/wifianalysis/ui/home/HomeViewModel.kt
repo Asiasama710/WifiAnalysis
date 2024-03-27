@@ -18,6 +18,16 @@ import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.Device
 import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
+/**
+ * HomeViewModel is a class that extends AndroidViewModel and is used to manage the UI state for the Home screen.
+ * It includes properties for the application context, state of the UI, and Wi-Fi details UI state.
+ *
+ * @property appContext The application context.
+ * @property _state A MutableStateFlow that represents the state of the UI.
+ * @property state A StateFlow that represents the state of the UI.
+ * @property _wifiDetailsUiState A MutableStateFlow that represents the Wi-Fi details UI state.
+ * @property wifiDetailsUiState A StateFlow that represents the Wi-Fi details UI state.
+ */
 class HomeViewModel(application: Application) : AndroidViewModel(application){
 
     private val _state = MutableStateFlow(HomeUiState())
@@ -28,13 +38,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     val wifiDetailsUiState = _wifiDetailsUiState.asStateFlow()
     private val appContext = getApplication<Application>().applicationContext
 
-
     init {
         _state.update { it.copy(isLoading = true) }
     }
 
-
-
+    /**
+     * Fetches the Wi-Fi details and updates the Wi-Fi details UI state.
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun fetchWifiDetails() {
         viewModelScope.launch {
@@ -49,10 +59,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
+    /**
+     * Changes the Wi-Fi state and updates the UI state.
+     *
+     * @param isWifiDisabled A Boolean that represents whether the Wi-Fi is disabled.
+     */
     fun changeWifiState(isWifiDisabled: Boolean) {
         _state.update { it.copy(isWifiDisabled = isWifiDisabled) }
     }
 
+    /**
+     * Updates the Wi-Fi details UI state with the given Wi-Fi details.
+     *
+     * @param wifiDetails A WifiDetails object that represents the Wi-Fi details.
+     */
     private fun updateWifiDetailsUiState(wifiDetails: WifiDetails) {
         _wifiDetailsUiState.value = WifiDetailsUiState(
             publicIp = wifiDetails.publicIp,
@@ -70,6 +90,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
             isHiddenSsid = wifiDetails.isHiddenSsid
         )
     }
-
-
 }

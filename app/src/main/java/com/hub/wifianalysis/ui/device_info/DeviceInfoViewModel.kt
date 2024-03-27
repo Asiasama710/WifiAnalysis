@@ -12,19 +12,32 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * DeviceInfoViewModel is a class that extends ViewModel and implements BaseInteractionListener.
+ * It manages the UI state and handles user interactions for the DeviceInfo screen.
+ *
+ * @param state The saved state handle for the ViewModel.
+ */
 class DeviceInfoViewModel(
    state: SavedStateHandle
 ): ViewModel(), BaseInteractionListener {
 
+   // The arguments passed to the DeviceInfoFragment.
    private val deviceArgs = DeviceInfoFragmentArgs.fromSavedStateHandle(state)
 
+   // The state of the UI.
    private val _state = MutableStateFlow(DeviceInfoUiState())
    val state = _state.asStateFlow()
 
    init {
+       // Fetch the device information and update the UI state.
        fetchInfo()
-      getDeviceInfo()
+       getDeviceInfo()
    }
+
+   /**
+    * Updates the UI state with the device information.
+    */
    private fun getDeviceInfo() {
        _state.value = DeviceInfoUiState(
            ipAddress = deviceArgs.deviceip,
@@ -34,6 +47,9 @@ class DeviceInfoViewModel(
        )
    }
 
+   /**
+    * Fetches the port information for the device and updates the UI state.
+    */
    private fun fetchInfo() {
       viewModelScope.launch(Dispatchers.IO)  {
          PortScanner(deviceArgs.deviceip).scanPorts().forEach {
@@ -46,7 +62,4 @@ class DeviceInfoViewModel(
             }
       }
    }
-
-
-
 }

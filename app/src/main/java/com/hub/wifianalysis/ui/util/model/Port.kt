@@ -1,5 +1,13 @@
 package com.hub.wifianalysis.ui.util.model
 
+/**
+ * Data class representing a description of a network port.
+ *
+ * @property port The port number.
+ * @property protocol The protocol used by the port (TCP or UDP).
+ * @property serviceName The name of the service running on the port.
+ * @property urlSchema The URL schema associated with the port, if any.
+ */
 data class PortDescription(
     val port: Int,
     val protocol: Protocol,
@@ -7,6 +15,9 @@ data class PortDescription(
     val urlSchema: String?,
 ) {
     companion object {
+        /**
+         * A list of common ports and their descriptions.
+         */
         val commonPorts = listOf(
                 PortDescription( 20, Protocol.TCP, "FTP", "ftp"),
                 PortDescription( 21, Protocol.TCP, "FTP", "ftp"),
@@ -40,7 +51,9 @@ data class PortDescription(
         )
     }
 
-
+    /**
+     * Enum representing the network protocols.
+     */
     enum class Protocol {
         TCP, UDP
     }

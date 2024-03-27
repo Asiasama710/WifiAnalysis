@@ -9,12 +9,23 @@ import java.io.IOException
 import java.io.InterruptedIOException
 import java.net.*
 
+/**
+ * PortScanner is a class used to scan the ports of a given IP address.
+ *
+ * @property ip The IP address to scan.
+ * @property TAG The tag used for logging.
+ */
 class PortScanner(val ip:String ) {
     companion object {
         val TAG = PortScanner::class.java.name
     }
 
-
+    /**
+     * Checks if a UDP port is open.
+     *
+     * @param port The port to check.
+     * @return A Boolean indicating whether the port is open.
+     */
     suspend fun isUdpPortOpen(port: Int) = withContext(Dispatchers.IO) {
         try {
             val bytes = ByteArray(128)
@@ -31,9 +42,14 @@ class PortScanner(val ip:String ) {
             return@withContext false
         }
         true
-
     }
 
+    /**
+     * Checks if a TCP port is open.
+     *
+     * @param port The port to check.
+     * @return A Boolean indicating whether the port is open.
+     */
     suspend fun isTcpPortOpen(port: Int) = withContext(Dispatchers.IO) {
         var socket: Socket? = null
         try {
@@ -51,6 +67,11 @@ class PortScanner(val ip:String ) {
         }
     }
 
+    /**
+     * Scans the common ports for both TCP and UDP protocols.
+     *
+     * @return A list of PortResult objects representing the result of the port scan.
+     */
     suspend fun scanPorts() = withContext(Dispatchers.Main) {
         PortDescription.commonPorts.flatMap {
             listOf(
@@ -64,5 +85,12 @@ class PortScanner(val ip:String ) {
         }
     }
 
+    /**
+     * PortResult is a data class that represents the result of a port scan.
+     *
+     * @property port The port that was scanned.
+     * @property protocol The protocol that was used for the scan.
+     * @property isOpen A Boolean indicating whether the port is open.
+     */
     data class PortResult(val port: Int, val protocol: PortDescription.Protocol, val isOpen: Boolean)
 }

@@ -22,10 +22,19 @@ import java.io.IOException
 import java.net.URL
 import java.util.Scanner
 
+/**
+ * WifiUtils is an object that provides utility functions for working with Wi-Fi.
+ */
 object WifiUtils {
     private const val REQUEST_CODE_WIFI_PERMISSION = 1
 
 
+    /**
+     * Gets the details of the Wi-Fi connection.
+     *
+     * @param context The context to use.
+     * @param callback The callback to call with the Wi-Fi details.
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getWifiDetails(context: Context, callback: (WifiDetails?) -> Unit) {
         val request = NetworkRequest.Builder()
@@ -99,6 +108,12 @@ object WifiUtils {
         connectivityManager.requestNetwork(request, networkCallback)
     }
 
+    /**
+     * Gets the details of the Wi-Fi connection.
+     *
+     * @param context The context to use.
+     * @param callback The callback to call with the Wi-Fi details.
+     */
     fun getPublicIP(): String {
         var publicIP = ""
         try {
@@ -115,6 +130,12 @@ object WifiUtils {
     }
 
 
+    /**
+     * Gets the SSID of the Wi-Fi connection.
+     *
+     * @param context The context to use.
+     * @return The SSID of the Wi-Fi connection, or null if not connected to Wi-Fi.
+     */
     fun getWifiSSID(context: Context): String? {
         return if (ContextCompat.checkSelfPermission(
                 context,
@@ -135,6 +156,12 @@ object WifiUtils {
         }
     }
 
+    /**
+     * Gets the network ID of the Wi-Fi connection.
+     *
+     * @param context The context to use.
+     * @return The network ID of the Wi-Fi connection, or -1 if not connected to Wi-Fi.
+     */
     fun getNetworkId(context: Context): Int {
         // Check ACCESS_FINE_LOCATION permission
         if (ContextCompat.checkSelfPermission(
@@ -156,6 +183,12 @@ object WifiUtils {
     }
 
 
+    /**
+     * Gets the IP address of the router.
+     *
+     * @param context The context to use.
+     * @return The IP address of the router.
+     */
     private fun getRouterIp(context: Context): String {
         val wifiManager =
             context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -163,6 +196,12 @@ object WifiUtils {
         return intToIp(dhcpInfo.gateway)
     }
 
+    /**
+     * Gets the first DNS server IP address.
+     *
+     * @param context The context to use.
+     * @return The first DNS server IP address.
+     */
     private fun getDns1(context: Context): String {
         val wifiManager =
             context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -170,6 +209,12 @@ object WifiUtils {
         return intToIp(dhcpInfo.dns1)
     }
 
+    /**
+     * Gets the second DNS server IP address.
+     *
+     * @param context The context to use.
+     * @return The second DNS server IP address.
+     */
     private fun getDns2(context: Context): String {
         val wifiManager =
             context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -177,6 +222,12 @@ object WifiUtils {
         return intToIp(dhcpInfo.dns2)
     }
 
+    /**
+     * Converts an integer to an IP address.
+     *
+     * @param ip The integer to convert.
+     * @return The IP address.
+     */
     private fun intToIp(ip: Int): String {
         return (ip and 0xFF).toString() + "." +
                 ((ip shr 8) and 0xFF) + "." +
@@ -184,6 +235,13 @@ object WifiUtils {
                 (ip shr 24 and 0xFF)
     }
 
+    /**
+     * This function gets the type of the current network connection.
+     * It requires the Android Q (API 29) or higher.
+     *
+     * @param context The context to use.
+     * @return The type of the current network connection as a String.
+     */
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun getConnectionType(context: Context): String {
         val connectivityManager =

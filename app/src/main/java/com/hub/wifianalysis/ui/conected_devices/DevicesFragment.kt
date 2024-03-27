@@ -17,12 +17,18 @@ import com.hub.wifianalysis.ui.home.HomeUiEffect
 import kotlinx.coroutines.launch
 import tej.androidnetworktools.lib.scanner.NetworkScanner
 
-
+/**
+ * DevicesFragment is a class that extends BaseFragment and is used to display a list of connected devices.
+ * It uses the layout defined in R.layout.fragment_devices for the fragment.
+ */
 class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
     override val TAG: String = this::class.java.simpleName.toString()
     override val layoutIdFragment: Int = R.layout.fragment_devices
     override val viewModel: DevicesViewModel by viewModels()
 
+    /**
+     * Setup the fragment. This includes initializing the adapter, checking the wifi state, and setting up the refresh button.
+     */
     override fun setup() {
         super.setup()
         initiateAdapter()
@@ -47,6 +53,14 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
 
     }
 
+    /**
+     * Navigate to the DetailsFragment with the provided parameters.
+     *
+     * @param ipAddress The IP address of the device.
+     * @param macAddress The MAC address of the device.
+     * @param deviceName The name of the device.
+     * @param vendor The vendor of the device.
+     */
     private fun navigateToDetailsFragment(
         ipAddress: String,
         macAddress: String,
@@ -58,11 +72,18 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
         findNavController().navigate(action)
     }
 
+    /**
+     * Initialize the DeviceAdapter and set it as the adapter for the RecyclerView.
+     */
     private fun initiateAdapter() {
         val adapter = DeviceAdapter(viewModel)
         binding.list.adapter = adapter
     }
 
+    /**
+     * Check the wifi state. If wifi is not enabled, enable it. If wifi is not connected, prompt the user to connect.
+     * If wifi is connected, initiate the adapter and start scanning for devices.
+     */
     private fun checkWifiState() {
         val wifiManager =
             requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
@@ -95,6 +116,5 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
             }
         }
     }
-
 
 }

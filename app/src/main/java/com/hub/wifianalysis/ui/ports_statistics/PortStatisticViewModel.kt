@@ -22,12 +22,23 @@ import kotlinx.coroutines.withContext
 import tej.androidnetworktools.lib.Device
 import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
 
-
+/**
+ * PortStatisticViewModel is a class that extends ViewModel and is used to manage the UI state for the Port Statistics screen.
+ * It includes properties for the state of the UI and implements the OnNetworkScanListener interface.
+ *
+ * @property _state A MutableStateFlow that represents the state of the UI.
+ * @property state A StateFlow that represents the state of the UI.
+ */
 class PortStatisticViewModel(): ViewModel(), OnNetworkScanListener {
 
    private val _state = MutableStateFlow(PortStatisticUiState())
    val state = _state.asStateFlow()
 
+    /**
+     * Fetches the information about the device with the given IP address.
+     *
+     * @param deviceIp A String that represents the IP address of the device.
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     private suspend fun fetchInfo(deviceIp:String) {
         withContext(Dispatchers.IO)  {
@@ -50,10 +61,20 @@ class PortStatisticViewModel(): ViewModel(), OnNetworkScanListener {
         }
     }
 
+    /**
+     * Changes the Wi-Fi state and updates the UI state.
+     *
+     * @param isWifiDisabled A Boolean that represents whether the Wi-Fi is disabled.
+     */
     fun changeWifiState(isWifiDisabled: Boolean) {
         _state.update { it.copy(isWifiDisabled = isWifiDisabled) }
     }
 
+    /**
+     * Called when the network scan is complete. It updates the UI state with the list of devices and fetches the information about each device.
+     *
+     * @param devices A List of Device objects that represents the devices in the network.
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onComplete(devices: List<Device>) {
         val device = devices.toUiState()
@@ -72,10 +93,11 @@ class PortStatisticViewModel(): ViewModel(), OnNetworkScanListener {
 
     }
 
+    /**
+     * Called when the network scan fails. It updates the UI state to show an error.
+     */
     override fun onFailed() {
         Log.e("TAG", "onFailed: ")
         _state.update { it.copy(isLoading = false, isError = true) }
     }
-
-
 }

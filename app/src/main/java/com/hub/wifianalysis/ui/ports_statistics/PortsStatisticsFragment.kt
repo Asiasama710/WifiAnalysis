@@ -10,18 +10,30 @@ import com.hub.wifianalysis.databinding.FragmentPortsStatisticsBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
 import tej.androidnetworktools.lib.scanner.NetworkScanner
 
-
+/**
+ * PortsStatisticsFragment is a class that extends BaseFragment and is used to display the ports statistics screen.
+ * It uses the layout defined in R.layout.fragment_ports_statistics for the fragment.
+ *
+ * @property TAG The tag used for logging.
+ * @property layoutIdFragment The layout id for the fragment.
+ * @property viewModel The ViewModel used for managing the UI state.
+ */
 class PortsStatisticsFragment : BaseFragment<FragmentPortsStatisticsBinding>() {
     override val TAG: String = this::class.java.simpleName.toString()
     override val layoutIdFragment: Int = R.layout.fragment_ports_statistics
     override val viewModel: PortStatisticViewModel by viewModels()
 
-
+    /**
+     * Setup the fragment. This includes checking the wifi state.
+     */
     override fun setup() {
         super.setup()
         checkWifiState()
     }
 
+    /**
+     * Check the wifi state and perform necessary actions based on the state.
+     */
     private fun checkWifiState() {
         val wifiManager =
             requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
@@ -53,6 +65,4 @@ class PortsStatisticsFragment : BaseFragment<FragmentPortsStatisticsBinding>() {
             }
         }
     }
-
-
 }

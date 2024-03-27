@@ -11,10 +11,24 @@ import androidx.fragment.app.Fragment
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.FragmentPasswordCheckerBinding
 
+/**
+ * PasswordCheckerFragment is a class that extends Fragment and is used to display the password checker screen.
+ * It uses the layout defined in R.layout.fragment_password_checker for the fragment.
+ *
+ * @property binding The binding object that represents the view of the fragment.
+ */
 class PasswordCheckerFragment : Fragment() {
 
     private lateinit var binding: FragmentPasswordCheckerBinding
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,6 +37,12 @@ class PasswordCheckerFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called immediately after onCreateView(LayoutInflater, ViewGroup, Bundle) has returned, but before any saved state has been restored in to the view.
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle).
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,6 +53,9 @@ class PasswordCheckerFragment : Fragment() {
         }
     }
 
+    /**
+     * TextWatcher for the password EditText. It clears the error and strength text after the password has been changed.
+     */
     private val passwordWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -44,6 +67,10 @@ class PasswordCheckerFragment : Fragment() {
         }
     }
 
+    /**
+     * Checks the strength of the password entered by the user and updates the UI accordingly.
+     * The password is considered strong if it matches the given regex pattern.
+     */
     private fun checkPasswordStrength() {
         val password = binding.passwordEditText.text.toString()
 
