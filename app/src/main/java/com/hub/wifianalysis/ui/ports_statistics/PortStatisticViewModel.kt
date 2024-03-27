@@ -6,15 +6,12 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hub.wifianalysis.ui.device_info.PortResultUiState
-import com.hub.wifianalysis.ui.home.HomeUiEffect
 import com.hub.wifianalysis.ui.home.toUiState
 import com.hub.wifianalysis.ui.util.PortScanner
 import com.hub.wifianalysis.ui.util.model.PortDescription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -29,10 +26,14 @@ import tej.androidnetworktools.lib.scanner.OnNetworkScanListener
  * @property _state A MutableStateFlow that represents the state of the UI.
  * @property state A StateFlow that represents the state of the UI.
  */
-class PortStatisticViewModel(): ViewModel(), OnNetworkScanListener {
+class PortStatisticViewModel() : ViewModel(), OnNetworkScanListener {
 
-   private val _state = MutableStateFlow(PortStatisticUiState())
-   val state = _state.asStateFlow()
+    private val _state = MutableStateFlow(PortStatisticUiState())
+    val state = _state.asStateFlow()
+
+    init {
+        _state.update { it.copy(isLoading = true) }
+    }
 
     /**
      * Fetches the information about the device with the given IP address.
@@ -40,22 +41,31 @@ class PortStatisticViewModel(): ViewModel(), OnNetworkScanListener {
      * @param deviceIp A String that represents the IP address of the device.
      */
     @RequiresApi(Build.VERSION_CODES.N)
-    private suspend fun fetchInfo(deviceIp:String) {
-        withContext(Dispatchers.IO)  {
-            PortScanner(deviceIp).scanPorts().forEach {portScan ->
+    private suspend fun fetchInfo(deviceIp: String) {
+        withContext(Dispatchers.IO) {
+            PortScanner(deviceIp).scanPorts().forEach { portScan ->
                 val result = portScan.await()
                 if (result.isOpen) {
                     Log.e("TAG", "deviceIp: $deviceIp")
-                    _state.update{ it.copy(ports = it.ports.toMutableList().apply {
-                                    add(PortResultUiState(port = result.port.toString(), protocol = result.protocol))
-                                }
+                    _state.update {
+                        it.copy(ports = it.ports.toMutableList().apply {
+                            add(
+                                PortResultUiState(
+                                    port = result.port.toString(),
+                                    protocol = result.protocol
+                                )
+                            )
+                        }
                         )
                     }
-                    val newPortConteValue =state.value.portCountMap.toMutableMap().apply {
-                        val serviceName = PortDescription.commonPorts.find { p -> p.port == result.port }?.serviceName ?: ""
-                        val count = getOrDefault(Pair(result.port.toString(),serviceName), 0)
-                        put(Pair(result.port.toString(),serviceName), count + 1) }.toList().distinctBy { it.first.second }?.toMap()
-                       _state.update { it.copy(portCountMap = newPortConteValue ?: emptyMap()) }
+                    val newPortConteValue = state.value.portCountMap.toMutableMap().apply {
+                        val serviceName =
+                            PortDescription.commonPorts.find { p -> p.port == result.port }?.serviceName
+                                ?: ""
+                        val count = getOrDefault(Pair(result.port.toString(), serviceName), 0)
+                        put(Pair(result.port.toString(), serviceName), count + 1)
+                    }.toList().distinctBy { it.first.second }?.toMap()
+                    _state.update { it.copy(portCountMap = newPortConteValue ?: emptyMap()) }
                 }
             }
         }
@@ -79,15 +89,15 @@ class PortStatisticViewModel(): ViewModel(), OnNetworkScanListener {
     override fun onComplete(devices: List<Device>) {
         val device = devices.toUiState()
         _state.update { it.copy(isLoading = false, devices = device, isError = false) }
-        try{
+        try {
             viewModelScope.launch {
 
                 val allOpenPort = state.value.devices.map { it.ipAddress }
                 Log.e("TAG", "allOpenPort: $allOpenPort")
                 async { allOpenPort.forEach { fetchInfo(it) } }.await()
-                _state.update { it.copy(isSuccessful = true)}
+                _state.update { it.copy(isSuccessful = true) }
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Log.e("TAG", "onComplete: ${e.message}")
         }
 

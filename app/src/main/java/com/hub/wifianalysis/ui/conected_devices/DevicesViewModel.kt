@@ -35,6 +35,9 @@ class DevicesViewModel(
     // The navigation events.
     private val _navigationEvents = MutableSharedFlow<HomeUiEffect>()
     val navigationEvents: SharedFlow<HomeUiEffect> = _navigationEvents
+    init {
+        _state.update { it.copy(isLoading = true) }
+    }
 
     /**
      * Handles the click event on a device.
