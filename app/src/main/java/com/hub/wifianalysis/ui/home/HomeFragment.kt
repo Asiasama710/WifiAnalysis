@@ -36,63 +36,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun setup() {
-        if (isLocationEnabled(requireContext())) {
-            setupPermissionRequest()
-        } else {
-            openLocationSettings()
-        }
+        checkWifiState()
     }
 
-
-    private fun setupPermissionRequest() {
-        PermissionX.init(this)
-            .permissions(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CHANGE_WIFI_STATE,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-            )
-            .onExplainRequestReason { scope, deniedList ->
-                scope.showRequestReasonDialog(
-                    deniedList,
-                    "Core fundamental are based on these permissions",
-                    "OK",
-                    "Cancel"
-                )
-            }
-            .request { allGranted, grantedList, deniedList ->
-                if (allGranted) {
-                    checkWifiState()
-                } else {
-                    showPermissionDeniedDialog()
-                    Toast.makeText(
-                        requireContext(),
-                        "These permissions are denied: $deniedList",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-    }
-
-
-    private fun showPermissionDeniedDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Permission Required")
-        builder.setMessage("Location permission is required to proceed. Please enable it in Settings.")
-        builder.setPositiveButton("Go to Settings") { dialog, _ ->
-            dialog.dismiss()
-            openLocationSettings()
-        }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-        builder.setCancelable(false)
-        builder.show()
-    }
     private fun checkWifiState() {
         val wifiManager =
             requireActivity().applicationContext.getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
-        Log.e("TAG", "onCreate")
         if (!wifiManager.isWifiEnabled) {
             Toast.makeText(
                     context,
@@ -103,6 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewModel.changeWifiState(true)
         } else {
             if (wifiManager.connectionInfo.networkId == -1) {
+                Log.e("TAG", "wifiManager.connectionInfo.networkId == -1 ")
                 viewModel.changeWifiState(true)
                 Toast.makeText(
                         context,
@@ -117,18 +67,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
-    private fun isLocationEnabled(context: Context): Boolean {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-        )
-    }
 
-    private fun openLocationSettings() {
-        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-        startActivityForResult(intent, REQUEST_CODE_APP_SETTINGS)
-    }
+    override fun onResume() {
+        super.onResume()
+        checkWifiState()
+        Log.e("TAG", "onResume ")
 
+    }
     companion object {
         const val REQUEST_CODE_APP_SETTINGS = 1002
     }
