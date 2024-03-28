@@ -1,7 +1,12 @@
 package com.hub.wifianalysis.ui
 
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +21,8 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.hub.wifianalysis.R
 import com.hub.wifianalysis.databinding.ActivityMainBinding
+import com.hub.wifianalysis.ui.home.HomeFragment
+import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,8 +45,26 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
         navigationView = binding.navView
 
+
         setupNavigation()
         setupDrawerToggle()
+
+        if(!isLocationEnabled(this)){
+            Toast.makeText(this, "turn on the Location pleas", Toast.LENGTH_SHORT).show()
+            openLocationSettings()
+        }
+    }
+
+    private fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun openLocationSettings() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        startActivityForResult(intent, HomeFragment.REQUEST_CODE_APP_SETTINGS)
     }
 
     @Suppress("DEPRECATION")

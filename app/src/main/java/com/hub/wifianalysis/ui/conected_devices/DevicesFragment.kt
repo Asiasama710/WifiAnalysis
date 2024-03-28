@@ -80,7 +80,7 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
                 viewModel.changeWifiState(true)
                 Toast.makeText(
                         context,
-                        "Wifi is not connected..Please connect to a wifi network",
+                        "Wifi is not connected..Please connect to a wifi network or check if Location is on",
                         Toast.LENGTH_LONG
                 ).show()
             } else {

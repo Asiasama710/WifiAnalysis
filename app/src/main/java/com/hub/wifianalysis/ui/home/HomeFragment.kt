@@ -1,7 +1,9 @@
 package com.hub.wifianalysis.ui.home
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
@@ -34,7 +36,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun setup() {
-        setupPermissionRequest()
+        if (isLocationEnabled(requireContext())) {
+            setupPermissionRequest()
+        } else {
+            openLocationSettings()
+        }
     }
 
 
@@ -111,6 +117,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
+    private fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        )
+    }
 
     private fun openLocationSettings() {
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
@@ -118,6 +130,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     companion object {
-        private const val REQUEST_CODE_APP_SETTINGS = 1002
+        const val REQUEST_CODE_APP_SETTINGS = 1002
     }
 }
