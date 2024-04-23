@@ -1,6 +1,7 @@
 package com.hub.wifianalysis.ui.conected_devices
 
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.hub.wifianalysis.R
+
 import com.hub.wifianalysis.databinding.FragmentDevicesBinding
 import com.hub.wifianalysis.ui.base.BaseFragment
 import com.hub.wifianalysis.ui.conected_devices.*
@@ -33,10 +35,10 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
                 when (event) {
                     is HomeUiEffect.NavigateToDetails -> {
                         navigateToDetailsFragment(
-                            event.ipAddress,
-                            event.macAddress,
-                            event.deviceName,
-                            event.vendor
+                                event.ipAddress,
+                                event.macAddress,
+                                event.deviceName,
+                                event.vendor
                         )
                     }
                 }
@@ -67,9 +69,9 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
         Log.e("TAG", "onCreate")
         if (!wifiManager.isWifiEnabled) {
             Toast.makeText(
-                context,
-                "WiFi is disabled ... We need to enable it",
-                Toast.LENGTH_LONG
+                    context,
+                    "WiFi is disabled ... We need to enable it",
+                    Toast.LENGTH_LONG
             ).show()
             wifiManager.isWifiEnabled = true
             viewModel.changeWifiState(true)
@@ -77,9 +79,9 @@ class DevicesFragment : BaseFragment<FragmentDevicesBinding>() {
             if (wifiManager.connectionInfo.networkId == -1) {
                 viewModel.changeWifiState(true)
                 Toast.makeText(
-                    context,
-                    "Wifi is not connected..Please connect to a wifi network",
-                    Toast.LENGTH_LONG
+                        context,
+                        "Wifi is not connected..Please connect to a wifi network or check if Location is on",
+                        Toast.LENGTH_LONG
                 ).show()
             } else {
                 initiateAdapter()
